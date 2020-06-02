@@ -14,6 +14,7 @@ class Game {
 	public:
 		static Game *getInstance();
 		static void cleanUpInstance();
+		static void mainloop();
 
 		void start();
 		void checkMusic();

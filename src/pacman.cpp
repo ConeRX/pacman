@@ -1,9 +1,12 @@
 #include "pacman.h"
 #include "config.h"
+#include <iostream>
 
 int main(int argc, char *argv[]) {
+        
 	srand((unsigned int) time(0));  // init randomize
 
+        
 	CommandLineOptions::set(argc, argv);
 	if (CommandLineOptions::exists("h", "help")) {
 		std::cout << "This game is a Pacman clone (version " << VERSION << ")."              << std::endl
@@ -27,11 +30,14 @@ int main(int argc, char *argv[]) {
 		std::cout << "pacman version " << VERSION << std::endl;
 		return EXIT_SUCCESS;
 	}
-
+        /*
 	if(Screen::getInstance()->hasSDLInitErrorOccured())
-		return EXIT_FAILURE;
+                cout << "Der Veehlateufel war hier" << endl;
+		return EXIT_FAILURE;*/
 
 	while(MenuMain::getInstance()->show()) {
+        //while (true) {
+                // neu MenuMain::getInstance()->show();
 		Game::getInstance()->start();
 		if (Game::getInstance()->isGameOver()) {
 			// do not load() here, this has been done at the time the game was over
@@ -60,5 +66,6 @@ int main(int argc, char *argv[]) {
 	HighscoreList::cleanUpInstance();
 	CommandLineOptions::cleanUp();
 
-	return EXIT_SUCCESS;
+
+	return EXIT_SUCCESS;     
 }

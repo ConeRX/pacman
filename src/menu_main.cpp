@@ -63,13 +63,15 @@ void MenuMain::drawTitle() {
 int MenuMain::show() {
 	GameController::getInstance()->searchAndOpen();
 	draw();
+        /*
 	int event;
 	while(!(event = eventloop())) {
 		SDL_Delay(Constants::MIN_FRAME_DURATION);
 		FunnyAnimation::getInstance()->animate();
 	}
-	FunnyAnimation::cleanUpInstance();
-	return (event == 1 ? 1 : 0);
+	FunnyAnimation::cleanUpInstance();*/
+	//return (event == 1 ? 1 : 0);
+        return 1;
 }
 
 int MenuMain::handleSelection() {

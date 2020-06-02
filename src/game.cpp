@@ -1,5 +1,6 @@
 #include "game.h"
 #include "level.h"
+#include "emscripten.h"
 #include <iostream>
 
 Game *Game::instance = NULL;
@@ -67,6 +68,8 @@ void Game::init() {
 	Screen::getInstance()->addUpdateClipRect();
 	Screen::getInstance()->Refresh();
 	currentTicks     = SDL_GetTicks();
+
+        cout << "fuckfuckfuck" << endl;
 }
 
 void Game::updateDelayTime() {
@@ -203,31 +206,42 @@ void Game::sleep(int ms) {
 	cnt_sleep = ms;
 }
 
+void Game::mainloop() {
+	// Fetch current instance of the Game (needed because this method has to be
+	// static for emscripten to call it)
+	Game *g = Game::getInstance();
+
+	if(g->eventloop()) {
+        
+	  g->handleAnimations();
+
+	  // handle time based counters
+	  g->handleStartOffset();
+	  g->handleHuntingMode();
+	  g->handleSleep();
+	  g->handleFruit();
+
+	  // move all figures, if they are allowed to move - and check, what happened
+	  g->checkedMove();
+	  Pacman::getInstance()->check_eat_pills();
+	  g->checkScoreForExtraLife();
+	  g->checkedRedraw();
+	  if (g->checkLastPillEaten())
+	    return; // instead of continue;
+	  g->checkGhostTouched();
+
+	  g->updateDelayTime();
+	} else {
+	  g->stop(true);
+	}
+}
+
+
 void Game::start() {
 	init();
-	Sounds::getInstance()->playIntro();
+	//Sounds::getInstance()->playIntro();
 	// game loop
-	while (eventloop()) {
-		handleAnimations();
-
-		// handle time based counters
-		handleStartOffset();
-		handleHuntingMode();
-		handleSleep();
-		handleFruit();
-
-		// move all figures, if they are allowed to move - and check, what happened
-		checkedMove();
-		Pacman::getInstance()->check_eat_pills();
-		checkScoreForExtraLife();
-		checkedRedraw();
-		if (checkLastPillEaten())
-			continue;
-		checkGhostTouched();
-
-		updateDelayTime();
-	}
-	stop(true);
+	emscripten_set_main_loop(Game::mainloop,0,1);
 }
 
 void Game::checkGameOver() {
