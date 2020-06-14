@@ -35,9 +35,9 @@ int main(int argc, char *argv[]) {
                 cout << "Der Veehlateufel war hier" << endl;
 		return EXIT_FAILURE;*/
 
-	while(MenuMain::getInstance()->show()) {
-        //while (true) {
-                // neu MenuMain::getInstance()->show();
+	//while(MenuMain::getInstance()->show()) {
+        while (true) {
+                MenuMain::getInstance()->show();
 		Game::getInstance()->start();
 		if (Game::getInstance()->isGameOver()) {
 			// do not load() here, this has been done at the time the game was over

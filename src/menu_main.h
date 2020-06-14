@@ -7,12 +7,14 @@
 #include "funny_animation.h"
 #include "highscore.h"
 #include "gamecontroller.h"
+#include "emscripten/html5.h"
 
 class MenuMain : public Menu {
 	public:
 		static MenuMain* getInstance();
 		static void cleanUpInstance();
 		int show();
+                static EM_BOOL frameloop(double time, void* userData);
 	private:
 		MenuMain();
 		~MenuMain();

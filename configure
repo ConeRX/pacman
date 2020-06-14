@@ -4626,7 +4626,7 @@ fi
 
 
 # Checks for libraries.
-SDL_VERSION=2.0
+SDL_VERSION=2.0.0
 
 
 

@@ -68,8 +68,6 @@ void Game::init() {
 	Screen::getInstance()->addUpdateClipRect();
 	Screen::getInstance()->Refresh();
 	currentTicks     = SDL_GetTicks();
-
-        cout << "fuckfuckfuck" << endl;
 }
 
 void Game::updateDelayTime() {

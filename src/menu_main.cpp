@@ -1,5 +1,7 @@
 #include "menu_main.h"
 #include "config.h"
+#include "emscripten.h"
+#include "emscripten/html5.h"
 
 MenuMain* MenuMain::instance = NULL;
 
@@ -61,8 +63,8 @@ void MenuMain::drawTitle() {
 }
 
 int MenuMain::show() {
-	GameController::getInstance()->searchAndOpen();
-	draw();
+	//GameController::getInstance()->searchAndOpen();
+	//draw();
         /*
 	int event;
 	while(!(event = eventloop())) {
@@ -71,7 +73,29 @@ int MenuMain::show() {
 	}
 	FunnyAnimation::cleanUpInstance();*/
 	//return (event == 1 ? 1 : 0);
-        return 1;
+        //return 1;
+        cout << "Win" << endl;
+        draw();
+        //emscripten_request_animation_frame_loop(MenuMain::frameloop,0);
+        return 0;
+}
+
+EM_BOOL MenuMain::frameloop(double time, void* userData) {
+        cout << "damn" << endl;
+        MenuMain *mm = MenuMain::getInstance();
+
+        GameController::getInstance()->searchAndOpen();
+	mm->draw();/*
+	int event;
+	while(!(event = mm->eventloop())) {
+		SDL_Delay(Constants::MIN_FRAME_DURATION);
+		FunnyAnimation::getInstance()->animate();
+                cout << "ach" << endl;
+	}
+	FunnyAnimation::cleanUpInstance();*/
+        cout << "damn2" << endl;
+        return 0;
+	//return (event == 1 ? EM_TRUE : EM_FALSE);
 }
 
 int MenuMain::handleSelection() {
